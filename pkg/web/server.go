@@ -30,8 +30,10 @@ func (s *Server) Run() error {
 
 	// API
 	routes := tr.PathPrefix("/api").Subrouter()
-	routes.HandleFunc("", wb.HandleReqs)
 
+	routes.Use(CORSMiddleware)
+
+	routes.HandleFunc("", wb.HandleReqs)
 
 	fmt.Println("Server listening on: ", s.Config.Port)
 	if err := http.ListenAndServe(s.Config.Addr + ":" + s.Config.Port, tr); err != nil {
