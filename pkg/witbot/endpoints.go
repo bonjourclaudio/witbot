@@ -3,6 +3,7 @@ package witbot
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -11,6 +12,8 @@ import (
 )
 
 func (w *Witbot) HandleReqs(res http.ResponseWriter, req *http.Request) {
+
+	fmt.Println("New incoming request from " + req.RemoteAddr)
 
 	// Get Request Body and convert to string
 	var bodyBytes []byte
@@ -56,7 +59,7 @@ func (w *Witbot) HandleReqs(res http.ResponseWriter, req *http.Request) {
 	}
 
 	// Handle Wit Response and get result
-	r, err := handleWitResponse(witbotRes)
+	r, err := handleWitResponse(&witbotRes)
 	if err != nil {
 		log.Fatal(err)
 	}
